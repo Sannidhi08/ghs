@@ -1,18 +1,52 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 
+// Images to exclude
 const excludedImages = [10, 14, 20];
 
+// Titles for available images
+const photoTitles = {
+  1: "Poshan Pakhwada",
+  2: "Group Study",
+  3: "Poshan Pakhwada",
+  4: "Poshan Pakhwada",
+  5: "Poshan Pakhwada",
+  6: "Meeting",
+  7: "Gandhi Jayanthi",
+  8: "Poshan Pakhwada",
+  9: "Ambedkar Jayanthi",
+  11: "Faculties",
+  12: "PPT Presentation",
+  13: "Assembly",
+  15: "Interactive Session",
+  16: "Learning in Progress",
+  17: "Mass PT",
+  18: "Samudayadatta Shala Karyakrama",
+  19:"Yoga Day",
+  21:"Table Tennies",
+  22:"Carrom",
+  23:"Flag Hosting",
+  24:"Sports Day",
+  25: "Varli Art",
+  26: "Varli Art",
+  27: "Assembly",
+  28: "Teachers Meeting",
+};
+
+// Prepare gallery items
 const galleryItems = Array.from({ length: 28 }, (_, i) => i + 1)
   .filter((num) => !excludedImages.includes(num))
   .map((num) => ({
     type: 'image',
     src: `/assets/${num}.jpg`,
+    title: photoTitles[num] || `Photo ${num}`,
   }));
 
+// Add video item
 galleryItems.push({
   type: 'video',
   src: '/assets/29.mp4',
+  title: 'School Event Video',
 });
 
 const Gallery = () => {
@@ -37,11 +71,16 @@ const Gallery = () => {
               onClick={() => openModal(item)}
             >
               {item.type === 'image' ? (
-                <img
-                  src={item.src}
-                  alt={`Gallery ${index + 1}`}
-                  className="w-full h-48 object-cover"
-                />
+                <>
+                  <img
+                    src={item.src}
+                    alt={item.title}
+                    className="w-full h-48 object-cover"
+                  />
+                  <div className="px-3 py-2 text-sm font-semibold text-center text-gray-700">
+                    {item.title}
+                  </div>
+                </>
               ) : (
                 <div className="relative">
                   <video
@@ -59,6 +98,9 @@ const Gallery = () => {
                   >
                     ▶ Play Video
                   </button>
+                  <div className="px-3 py-2 text-sm font-semibold text-center text-gray-700">
+                    {item.title}
+                  </div>
                 </div>
               )}
             </motion.div>
@@ -86,7 +128,7 @@ const Gallery = () => {
             {selectedMedia.type === 'image' ? (
               <img
                 src={selectedMedia.src}
-                alt="Enlarged"
+                alt={selectedMedia.title}
                 className="w-full max-h-[80vh] object-contain rounded-md"
               />
             ) : (
@@ -97,6 +139,9 @@ const Gallery = () => {
                 className="w-full max-h-[80vh] rounded-md"
               />
             )}
+            <p className="text-center text-white mt-4 text-lg font-semibold">
+              {selectedMedia.title}
+            </p>
           </div>
         </div>
       )}
